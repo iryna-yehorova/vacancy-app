@@ -6,12 +6,17 @@ import RemoteFilter from "./RemoteFilter"
 class List extends React.Component {
     constructor(props) {
         super(props);
-        this.state= {
+        this.state = {
             list: [],
-            filter: {
-                remote: {}
-            }
+            filteredList: [],
+            remote: ''
         }
+        this.handleRemoteChange = this.handleRemoteChange.bind(this);
+    }
+
+    handleRemoteChange(remote) {
+        this.setState({remote})
+        this.filterList()
     }
     
     getList() {
@@ -33,14 +38,28 @@ class List extends React.Component {
                 createdAt: j.created_at
             }
             })
-            this.setState({list})
+            this.setState({list, filteredList: list})
         })
     }
 
-    renderVacancy(title) {
+    filterList() {
+        let list = this.state.list
+
+        if(this.state.remote && this.state.remote === 'true') {
+            list = list.filter(l => l.remote)
+        }
+        if(this.state.remote && this.state.remote === 'false') {
+            list = list.filter(l => !l.remote)
+        }
+        
+        this.setState({filteredList: list})
+    }
+
+    renderVacancy(title, remote) {
         return (
           <Vacancy
             value={title}
+            remote={remote}
           />
         );
       }
@@ -52,12 +71,15 @@ class List extends React.Component {
     render() {
         return (
             <div>
-                <RemoteFilter />
+                <RemoteFilter 
+                    value={this.state.remote}
+                    onRemoteChange={this.handleRemoteChange}
+                />
                 <table>
                     <tbody>
-                        {this.state.list.map((item, index) => (
+                        {this.state.filteredList.map((item, index) => (
                             <tr key={index+1}>
-                                {this.renderVacancy(item.title)}
+                                {this.renderVacancy(item.title, item.remote)}
                             </tr>
                         ))}
                     </tbody>

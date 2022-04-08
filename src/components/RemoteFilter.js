@@ -1,36 +1,35 @@
 import React from 'react'
 
+const filterOptions = [
+    {value: 'true', text: 'Yes'},
+    {value: 'false', text: 'No'},
+    {value: '', text: 'None'}
+]
+
 class RemoteFilter extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            filterOptions: [
-                {value: 'true', text: 'Yes'},
-                {value: 'false', text: 'No'},
-            ],
-            value: {}
-        }
-
         this.handleChange = this.handleChange.bind(this)
     }
 
-    handleChange(event) {
-        this.setState({value: event.target.value})
+    handleChange(e) {
+        this.props.onRemoteChange(e.target.value)
     }
 
     handleSubmit(event) {}
 
     render() {
+        const value = this.props.value
         return (
             <div>
-            <label>Remote possibility</label>
-            <select value={this.state.value} onChange={this.handleChange}>
-                {this.state.filterOptions.map((item, index) => (
-                        <option value={item.value} key={index}>
-                            {item.text}
-                        </option>
-                    ))}
-            </select>
+                <label>Remote possibility</label>
+                <select value={value} onChange={this.handleChange}>
+                    {filterOptions.map((item, index) => (
+                            <option value={item.value} key={index}>
+                                {item.text}
+                            </option>
+                        ))}
+                </select>
             </div>
         )
     }
