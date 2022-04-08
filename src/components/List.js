@@ -1,10 +1,17 @@
 import React from 'react'
 import Vacancy from "./ListItem"
+import RemoteFilter from "./RemoteFilter"
 
 
 class List extends React.Component {
-    state = {
-        list: []
+    constructor(props) {
+        super(props);
+        this.state= {
+            list: [],
+            filter: {
+                remote: {}
+            }
+        }
     }
     
     getList() {
@@ -30,29 +37,32 @@ class List extends React.Component {
         })
     }
 
-    renderVacancy(index, title) {
+    renderVacancy(title) {
         return (
           <Vacancy
             value={title}
-            key={index}
           />
         );
       }
 
+    componentDidMount() {
+        this.getList()
+    }
+
     render() {
-        if(this.state.list.length === 0) {
-            this.getList()
-        }
         return (
-            <table className="table">
-                <tbody>
-                    {this.state.list.map((item, index) => (
-                        <tr key={item.id}>
-                            {this.renderVacancy(index+1, item.title)}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <div>
+                <RemoteFilter />
+                <table>
+                    <tbody>
+                        {this.state.list.map((item, index) => (
+                            <tr key={index+1}>
+                                {this.renderVacancy(item.title)}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         );
     }
 }

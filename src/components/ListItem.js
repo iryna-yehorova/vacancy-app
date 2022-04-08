@@ -1,8 +1,8 @@
 function Vacancy(props) {
     return (
-      <div>
+      <td>
         {props.value}
-      </div>
+      </td>
     );
 }
 
