@@ -1,9 +1,9 @@
 import React from 'react'
+import { AutoComplete } from 'antd';
 
 const filterOptions = [
-    {value: 'true', text: 'Yes'},
-    {value: 'false', text: 'No'},
-    {value: '', text: 'None'}
+    {value: 'true', label: 'Yes'},
+    {value: 'false', label: 'No'},
 ]
 
 class RemoteFilter extends React.Component {
@@ -17,17 +17,17 @@ class RemoteFilter extends React.Component {
     }
 
     render() {
-        const value = this.props.value
         return (
             <div>
                 <label>Remote possibility</label>
-                <select value={value} onChange={this.handleChange}>
-                    {filterOptions.map((item, index) => (
-                        <option value={item.value} key={index}>
-                            {item.text}
-                        </option>
-                    ))}
-                </select>
+                <AutoComplete
+                    style={{ width: 300 }}
+                    placeholder="remote filter"
+                    allowClear={true}
+                    value={this.props.value}
+                    options={filterOptions}
+                    onChange={this.handleChange}
+                />
             </div>
         )
     }

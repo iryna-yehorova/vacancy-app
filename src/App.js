@@ -1,13 +1,17 @@
 import React  from 'react';
 import './App.css';
-import List from "./components/List"
+import List from "./routes/List"
+import { PageHeader } from 'antd';
 
 function App() {
     return (
       <div className="App">
         <header className="App-header">
-          <span>Vacancy Finding App</span>
-          <span>Arbeit Now</span>
+          <PageHeader
+            className="site-page-header"
+            backIcon={false}
+            title="Vacancy Finding App"
+          />
         </header>
         <main>
           <List />

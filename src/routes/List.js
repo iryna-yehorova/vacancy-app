@@ -1,8 +1,8 @@
 import React from 'react'
-import ListItem from "./ListItem"
-import RemoteFilter from "./RemoteFilter"
-import CityFilter from "./CityFilter"
-import TagFilter from "./TagFilter"
+import RemoteFilter from "../components/RemoteFilter"
+import CityFilter from "../components/CityFilter"
+import TagFilter from "../components/TagFilter"
+import { Link } from "react-router-dom";
 
 class List extends React.Component {
     constructor(props) {
@@ -64,7 +64,12 @@ class List extends React.Component {
     getCityList() {
         const allList = this.state.list.map(j => j.location);
         const uniqList = [ ...new Set(allList)];
-        const list = uniqList.sort()
+        const list = uniqList.sort().map(i => {
+            return {
+                value: i,
+                label: i
+            }
+        })
         this.setState({cityList: list})
     }
 
@@ -72,7 +77,12 @@ class List extends React.Component {
         let allList = []
         this.state.list.forEach(j => allList = [...j.tags, ...allList]);
         const uniqList = [ ...new Set(allList)];
-        const list = uniqList.sort()
+        const list = uniqList.sort().map(i => {
+            return {
+                value: i,
+                label: i
+            }
+        })
         this.setState({tagList: list})
     }
 
@@ -88,6 +98,7 @@ class List extends React.Component {
         if(filter.remote && filter.remote === 'true') {
             list = list.filter(l => l.remote)
         }
+
         if(filter.remote && filter.remote === 'false') {
             list = list.filter(l => !l.remote)
         }
@@ -103,12 +114,15 @@ class List extends React.Component {
         this.setState({filteredList: list})
     }
 
-    renderVacancy(title, remote) {
+    renderVacancy(title) {
         return (
-          <ListItem
-            value={title}
-            remote={remote}
-          />
+            <td>
+                <Link
+                    to='vacancy'
+                >
+                    {title}
+                </Link>
+            </td>
         );
       }
 
@@ -137,7 +151,7 @@ class List extends React.Component {
                     <tbody>
                         {this.state.filteredList.map((item, index) => (
                             <tr key={index+1}>
-                                {this.renderVacancy(item.title, item.remote)}
+                                {this.renderVacancy(item.title)}
                             </tr>
                         ))}
                     </tbody>

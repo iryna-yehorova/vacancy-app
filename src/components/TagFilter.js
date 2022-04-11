@@ -1,4 +1,5 @@
 import React from 'react'
+import { AutoComplete } from 'antd';
 
 class TagFilter extends React.Component {
     constructor(props) {
@@ -11,17 +12,17 @@ class TagFilter extends React.Component {
     }
 
     render() {
-        const value = this.props.value
         return (
             <div>
                 <label>Filter by tags</label>
-                <select value={value} onChange={this.handleChange} multiple={false}>
-                    {this.props.tags.map((item, index) => (
-                        <option value={item} key={index}>
-                            {item}
-                        </option>
-                    ))}
-                </select>
+                <AutoComplete
+                    style={{ width: 300 }}
+                    placeholder="tags filter"
+                    allowClear={true}
+                    value={this.props.value}
+                    options={this.props.tags}
+                    onChange={this.handleChange}
+                />
             </div>
         )
     }

@@ -1,38 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import Vacancy from "./components/Vacancy.js"
-
-
-const rootElement = document.getElementById("root");
-render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/home" element={<App />}>
-        <Route path="vacancy" element={<Vacancy />} />
-        <Route
-          path="*"
-          element={
-            <main style={{ padding: "1rem" }}>
-              <p>There's nothing here!</p>
-            </main>
-          }
-        /> 
-      </Route>
-    </Routes>
-  </BrowserRouter>,
-  rootElement
-);
+import Vacancy from "./routes/Vacancy.js"
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <BrowserRouter> 
+      <Routes>
+          <Route exact path="/" element={<App />} />
+          <Route exact path="/vacancy" element={<Vacancy />} />
+          <Route
+            path="*"
+            element={
+              <main>
+                <p>There's nothing here!</p>
+              </main>
+            }
+          /> 
+      </Routes>
+    </BrowserRouter>
+  </React.StrictMode>, 
   document.getElementById('root')
 );
 
