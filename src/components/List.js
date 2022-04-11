@@ -1,6 +1,7 @@
 import React from 'react'
 import Vacancy from "./ListItem"
 import RemoteFilter from "./RemoteFilter"
+import CityFilter from "./CityFilter"
 
 
 class List extends React.Component {
@@ -9,14 +10,22 @@ class List extends React.Component {
         this.state = {
             list: [],
             filteredList: [],
-            remote: ''
+            remote: '',
+            cityFilter: '',
+            cityList: []
         }
         this.handleRemoteChange = this.handleRemoteChange.bind(this);
+        this.handleCityFilterChange = this.handleCityFilterChange.bind(this);
     }
 
     handleRemoteChange(remote) {
         this.setState({remote})
-        this.filterList(remote)
+        this.filterList()
+    }
+    
+    handleCityFilterChange(cityFilter) {
+        this.setState({cityFilter})
+        this.filterList()
     }
     
     getList() {
@@ -39,17 +48,34 @@ class List extends React.Component {
             }
             })
             this.setState({list, filteredList: list})
+            this.getCityList()
         })
     }
 
-    filterList(remote) {
+    getCityList() {
+        const allList = this.state.list.map(j => j.location);
+        const uniqList = [ ...new Set(allList)];
+        const list = uniqList.sort()
+        this.setState({cityList: list})
+    }
+
+    filterList() {
+        let filter= {
+            remote: this.state.remote,
+            city: this.state.cityFilter
+        }
+
         let list = this.state.list
 
-        if(remote && remote === 'true') {
+        if(filter.remote && filter.remote === 'true') {
             list = list.filter(l => l.remote)
         }
-        if(remote && remote === 'false') {
+        if(filter.remote && filter.remote === 'false') {
             list = list.filter(l => !l.remote)
+        }
+        
+        if(filter.city) {
+            list = list.filter(l => l.location === filter.city)
         }
         
         this.setState({filteredList: list})
@@ -74,6 +100,11 @@ class List extends React.Component {
                 <RemoteFilter 
                     value={this.state.remote}
                     onRemoteChange={this.handleRemoteChange}
+                />
+                 <CityFilter 
+                    value={this.state.cityFilter}
+                    cities={this.state.cityList}
+                    onRemoteChange={this.handleCityFilterChange}
                 />
                 <table>
                     <tbody>
