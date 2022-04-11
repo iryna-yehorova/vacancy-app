@@ -16,8 +16,6 @@ class RemoteFilter extends React.Component {
         this.props.onRemoteChange(e.target.value)
     }
 
-    handleSubmit(event) {}
-
     render() {
         const value = this.props.value
         return (
@@ -25,10 +23,10 @@ class RemoteFilter extends React.Component {
                 <label>Remote possibility</label>
                 <select value={value} onChange={this.handleChange}>
                     {filterOptions.map((item, index) => (
-                            <option value={item.value} key={index}>
-                                {item.text}
-                            </option>
-                        ))}
+                        <option value={item.value} key={index}>
+                            {item.text}
+                        </option>
+                    ))}
                 </select>
             </div>
         )

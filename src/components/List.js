@@ -16,7 +16,7 @@ class List extends React.Component {
 
     handleRemoteChange(remote) {
         this.setState({remote})
-        this.filterList()
+        this.filterList(remote)
     }
     
     getList() {
@@ -42,13 +42,13 @@ class List extends React.Component {
         })
     }
 
-    filterList() {
+    filterList(remote) {
         let list = this.state.list
 
-        if(this.state.remote && this.state.remote === 'true') {
+        if(remote && remote === 'true') {
             list = list.filter(l => l.remote)
         }
-        if(this.state.remote && this.state.remote === 'false') {
+        if(remote && remote === 'false') {
             list = list.filter(l => !l.remote)
         }
         
