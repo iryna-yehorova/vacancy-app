@@ -1,5 +1,5 @@
 import React from 'react'
-import Vacancy from "./ListItem"
+import ListItem from "./ListItem"
 import RemoteFilter from "./RemoteFilter"
 import CityFilter from "./CityFilter"
 import TagFilter from "./TagFilter"
@@ -105,7 +105,7 @@ class List extends React.Component {
 
     renderVacancy(title, remote) {
         return (
-          <Vacancy
+          <ListItem
             value={title}
             remote={remote}
           />

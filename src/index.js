@@ -1,8 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { render } from "react-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+import Vacancy from "./components/Vacancy.js"
+
+
+const rootElement = document.getElementById("root");
+render(
+  <BrowserRouter>
+    <Routes>
+      <Route path="/home" element={<App />}>
+        <Route path="vacancy" element={<Vacancy />} />
+        <Route
+          path="*"
+          element={
+            <main style={{ padding: "1rem" }}>
+              <p>There's nothing here!</p>
+            </main>
+          }
+        /> 
+      </Route>
+    </Routes>
+  </BrowserRouter>,
+  rootElement
+);
 
 ReactDOM.render(
   <React.StrictMode>

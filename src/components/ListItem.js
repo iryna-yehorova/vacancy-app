@@ -1,4 +1,4 @@
-function Vacancy(props) {
+function ListItem(props) {
     return (
       <td>
         {props.value}
@@ -6,4 +6,4 @@ function Vacancy(props) {
     );
 }
 
-export default Vacancy
+export default ListItem
