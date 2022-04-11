@@ -1,22 +1,22 @@
 import React from 'react'
 
-class CityFilter extends React.Component {
+class TagFilter extends React.Component {
     constructor(props) {
         super(props)
         this.handleChange = this.handleChange.bind(this)
     }
 
     handleChange(e) {
-        this.props.onCityChange(e.target.value)
+        this.props.onTagChange(e.target.value)
     }
 
     render() {
         const value = this.props.value
         return (
             <div>
-                <label>Filter by location</label>
+                <label>Filter by tags</label>
                 <select value={value} onChange={this.handleChange} multiple={false}>
-                    {this.props.cities.map((item, index) => (
+                    {this.props.tags.map((item, index) => (
                         <option value={item} key={index}>
                             {item}
                         </option>
@@ -27,4 +27,4 @@ class CityFilter extends React.Component {
     }
 }
 
-export default CityFilter
+export default TagFilter

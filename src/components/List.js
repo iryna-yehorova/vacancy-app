@@ -2,7 +2,7 @@ import React from 'react'
 import Vacancy from "./ListItem"
 import RemoteFilter from "./RemoteFilter"
 import CityFilter from "./CityFilter"
-
+import TagFilter from "./TagFilter"
 
 class List extends React.Component {
     constructor(props) {
@@ -12,10 +12,13 @@ class List extends React.Component {
             filteredList: [],
             remote: '',
             cityFilter: '',
-            cityList: []
+            cityList: [],
+            tagFilter: '',
+            tagList: []
         }
         this.handleRemoteChange = this.handleRemoteChange.bind(this);
         this.handleCityFilterChange = this.handleCityFilterChange.bind(this);
+        this.handleTagFilterChange = this.handleTagFilterChange.bind(this);
     }
 
     handleRemoteChange(remote) {
@@ -27,29 +30,35 @@ class List extends React.Component {
         this.setState({cityFilter})
         this.filterList()
     }
+
+    handleTagFilterChange(tagFilter) {
+        this.setState({tagFilter})
+        this.filterList()
+    }
     
     getList() {
         const url = 'https://www.arbeitnow.com/api/job-board-api'
         fetch(`${url}`)
-        .then(response => response.json())
-        .then(jobs => {
-            const list = jobs.data.map(j => {
-            return {
-                slug: j.slug,
-                companyName: j.company_name,
-                title: j.title,
-                description: j.description,
-                remote: j.remote,
-                url: j.url,
-                tags: j.tags,
-                jobTypes: j.job_types,
-                location: j.location,
-                createdAt: j.created_at
-            }
+            .then(response => response.json())
+            .then(jobs => {
+                const list = jobs.data.map(j => {
+                return {
+                    slug: j.slug,
+                    companyName: j.company_name,
+                    title: j.title,
+                    description: j.description,
+                    remote: j.remote,
+                    url: j.url,
+                    tags: j.tags,
+                    jobTypes: j.job_types,
+                    location: j.location,
+                    createdAt: j.created_at
+                }
+                })
+                this.setState({list, filteredList: list})
+                this.getCityList()
+                this.getTagList()
             })
-            this.setState({list, filteredList: list})
-            this.getCityList()
-        })
     }
 
     getCityList() {
@@ -59,10 +68,19 @@ class List extends React.Component {
         this.setState({cityList: list})
     }
 
+    getTagList() {
+        let allList = []
+        this.state.list.forEach(j => allList = [...j.tags, ...allList]);
+        const uniqList = [ ...new Set(allList)];
+        const list = uniqList.sort()
+        this.setState({tagList: list})
+    }
+
     filterList() {
         let filter= {
             remote: this.state.remote,
-            city: this.state.cityFilter
+            city: this.state.cityFilter,
+            tag: this.state.tagFilter
         }
 
         let list = this.state.list
@@ -73,9 +91,13 @@ class List extends React.Component {
         if(filter.remote && filter.remote === 'false') {
             list = list.filter(l => !l.remote)
         }
-        
+
         if(filter.city) {
             list = list.filter(l => l.location === filter.city)
+        }
+
+        if(filter.tag) {
+            list = list.filter(l => l.tags.includes(filter.tag))
         }
         
         this.setState({filteredList: list})
@@ -104,7 +126,12 @@ class List extends React.Component {
                  <CityFilter 
                     value={this.state.cityFilter}
                     cities={this.state.cityList}
-                    onRemoteChange={this.handleCityFilterChange}
+                    onCityChange={this.handleCityFilterChange}
+                />
+                <TagFilter
+                    value={this.state.tagFilter}
+                    tags={this.state.tagList}
+                    onTagChange={this.handleTagFilterChange}
                 />
                 <table>
                     <tbody>
