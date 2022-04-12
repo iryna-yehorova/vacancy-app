@@ -16,7 +16,7 @@ function List() {
     // get data from api
     useEffect( () => {
         getList()
-    })
+    }, [])
 
     function getList() {
         const url = 'https://www.arbeitnow.com/api/job-board-api'
@@ -45,7 +45,6 @@ function List() {
     }
 
     // get cities and tags lists
-
     const getCityList = (data) => {
         const allList = data.map(j => j.location);
         const uniqList = [ ...new Set(allList)];
@@ -69,39 +68,46 @@ function List() {
             }
         })
         setTagList(list)
-    };
- 
-    // filter data
-    // filterList() {
-    //     let filter= {
-    //         remote: this.state.remote,
-    //         city: this.state.cityFilter,
-    //         tag: this.state.tagFilter
-    //     }
+    }
 
-    //     let list = this.state.list
-
-    //     if(filter.remote && filter.remote === 'true') {
-    //         list = list.filter(l => l.remote)
-    //     }
-
-    //     if(filter.remote && filter.remote === 'false') {
-    //         list = list.filter(l => !l.remote)
-    //     }
-
-    //     if(filter.city) {
-    //         list = list.filter(l => l.location === filter.city)
-    //     }
-
-    //     if(filter.tag) {
-    //         list = list.filter(l => l.tags.includes(filter.tag))
-    //     }
-        
-    //     this.setState({filteredList: list})
-    // }
+    // set filters
     const handleRemoteChange = (data) => setRemoteFilter(data)
     const handleCityChange = (data) => setCityFilter(data)
     const handleTagChange = (data) => setTagFilter(data)
+
+    // filter data
+    useEffect(() => {
+        filterList(remoteFilter, cityFilter, tagFilter)
+    }, [remoteFilter, cityFilter, tagFilter])
+
+    function filterList(remote, city, tag) {
+        let filter= {
+            remote,
+            city,
+            tag
+        }
+
+        let data = list
+
+        if(filter.remote && filter.remote === 'true') {
+            data = data.filter(l => l.remote)
+        }
+
+        if(filter.remote && filter.remote === 'false') {
+            data = data.filter(l => !l.remote)
+        }
+
+        if(filter.city) {
+            data = data.filter(l => l.location === filter.city)
+        }
+
+        if(filter.tag) {
+            data = data.filter(l => l.tags.includes(filter.tag))
+        }
+        
+        setFilteredList(data)
+    }
+
 
     function renderVacancy(title) {
         return (
