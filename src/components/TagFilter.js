@@ -2,9 +2,6 @@ import React from 'react'
 import { AutoComplete } from 'antd';
 
 function TagFilter (props) {
-    function handleTagChange(event) {
-        props.onChange(event)
-    }
     return (
         <div>
             <label>Filter by tags</label>
@@ -14,7 +11,7 @@ function TagFilter (props) {
                 allowClear={true}
                 value={props.value}
                 options={props.tags}
-                onChange={handleTagChange}
+                onChange={(event) => props.onChange(event)}
             />
         </div>
     )

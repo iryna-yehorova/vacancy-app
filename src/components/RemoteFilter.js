@@ -7,10 +7,6 @@ const filterOptions = [
 ]
 
 function RemoteFilter (props) {
-    function handleRemoteChange(event) {
-        props.onChange(event)
-    }
-
     return (
         <div>
             <label>Remote Filter</label>
@@ -20,7 +16,7 @@ function RemoteFilter (props) {
                 allowClear={true}
                 value={props.value}
                 options={filterOptions}
-                onChange={handleRemoteChange}
+                onChange={(event) => props.onChange(event)}
             />
         </div>
     )

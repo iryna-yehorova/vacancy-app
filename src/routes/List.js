@@ -99,18 +99,9 @@ function List() {
         
     //     this.setState({filteredList: list})
     // }
-
-    function handleRemoteChange(data) {
-        setRemoteFilter(data)
-    }
-
-    function handleCityChange(data) {
-        setCityFilter(data)
-    }
-
-    function handleTagChange(data) {
-        setTagFilter(data)
-    }
+    const handleRemoteChange = (data) => setRemoteFilter(data)
+    const handleCityChange = (data) => setCityFilter(data)
+    const handleTagChange = (data) => setTagFilter(data)
 
     function renderVacancy(title) {
         return (
