@@ -6,31 +6,24 @@ const filterOptions = [
     {value: 'false', label: 'No'},
 ]
 
-class RemoteFilter extends React.Component {
-    constructor(props) {
-        super(props)
-        this.handleChange = this.handleChange.bind(this)
+function RemoteFilter (props) {
+    function handleRemoteChange(event) {
+        props.onChange(event)
     }
 
-    handleChange(e) {
-        this.props.onRemoteChange(e.target.value)
-    }
-
-    render() {
-        return (
-            <div>
-                <label>Remote possibility</label>
-                <AutoComplete
-                    style={{ width: 300 }}
-                    placeholder="remote filter"
-                    allowClear={true}
-                    value={this.props.value}
-                    options={filterOptions}
-                    onChange={this.handleChange}
-                />
-            </div>
-        )
-    }
+    return (
+        <div>
+            <label>Remote Filter</label>
+            <AutoComplete
+                style={{ width: 300 }}
+                placeholder="remote filter"
+                allowClear={true}
+                value={props.value}
+                options={filterOptions}
+                onChange={handleRemoteChange}
+            />
+        </div>
+    )
 }
 
 export default RemoteFilter

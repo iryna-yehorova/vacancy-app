@@ -1,31 +1,23 @@
 import React from 'react'
 import { AutoComplete } from 'antd';
 
-class TagFilter extends React.Component {
-    constructor(props) {
-        super(props)
-        this.handleChange = this.handleChange.bind(this)
+function TagFilter (props) {
+    function handleTagChange(event) {
+        props.onChange(event)
     }
-
-    handleChange(e) {
-        this.props.onTagChange(e.target.value)
-    }
-
-    render() {
-        return (
-            <div>
-                <label>Filter by tags</label>
-                <AutoComplete
-                    style={{ width: 300 }}
-                    placeholder="tags filter"
-                    allowClear={true}
-                    value={this.props.value}
-                    options={this.props.tags}
-                    onChange={this.handleChange}
-                />
-            </div>
-        )
-    }
+    return (
+        <div>
+            <label>Filter by tags</label>
+            <AutoComplete
+                style={{ width: 300 }}
+                placeholder="tags filter"
+                allowClear={true}
+                value={props.value}
+                options={props.tags}
+                onChange={handleTagChange}
+            />
+        </div>
+    )
 }
 
 export default TagFilter

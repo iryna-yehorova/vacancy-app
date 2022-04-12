@@ -1,31 +1,23 @@
 import React from 'react'
 import { AutoComplete } from 'antd';
 
-class CityFilter extends React.Component {
-    constructor(props) {
-        super(props)
-        this.handleChange = this.handleChange.bind(this)
+function CityFilter (props) {
+    function handleCityChange(event) {
+        props.onChange(event)
     }
-
-    handleChange(e) {
-        this.props.onCityChange(e.target.value)
-    }
-
-    render() {
-        return (
-            <div>
-                <label>Filter by location</label>
-                <AutoComplete
-                    style={{ width: 300 }}
-                    placeholder="city filter"
-                    allowClear={true}
-                    value={this.props.value}
-                    options={this.props.cities}
-                    onChange={this.handleChange}
-                />
-            </div>
-        )
-    }
+    return (
+        <div>
+            <label>Filter by location</label>
+            <AutoComplete
+                style={{ width: 300 }}
+                placeholder="city filter"
+                allowClear={true}
+                value={props.value}
+                options={props.cities}
+                onChange={handleCityChange}
+            />
+        </div>
+    )
 }
 
 export default CityFilter
