@@ -1,8 +1,9 @@
-import React, { useState, useEffect  } from 'react'
+import React, { useState, useEffect, useContext  } from 'react'
 import RemoteFilter from "../components/RemoteFilter"
 import CityFilter from "../components/CityFilter"
 import TagFilter from "../components/TagFilter"
 import { Link } from "react-router-dom";
+import AppContext from "../helpers/AppContext"
 
 function List() {
     const [list, setList] = useState([]);
@@ -12,6 +13,7 @@ function List() {
     const [remoteFilter, setRemoteFilter] = useState('');
     const [cityFilter, setCityFilter] = useState('');
     const [tagFilter, setTagFilter] = useState('');
+    const dataContext = useContext(AppContext);
 
     // get data from api
     useEffect( () => {
@@ -23,7 +25,7 @@ function List() {
         fetch(`${url}`)
             .then(response => response.json())
             .then(jobs => {
-                const list = jobs.data.map(j => {
+                const data = jobs.data.map(j => {
                 return {
                     slug: j.slug,
                     companyName: j.company_name,
@@ -37,10 +39,11 @@ function List() {
                     createdAt: j.created_at
                 }
                 })
-                setList(list);
-                setFilteredList(list);
-                getCityList(list);
-                getTagList(list)
+                setList(data);
+                setFilteredList(data);
+                dataContext.setDataList(data)
+                getCityList(data);
+                getTagList(data)
             })
     }
 
@@ -108,12 +111,13 @@ function List() {
         setFilteredList(data)
     }
 
-
-    function renderVacancy(title) {
+    function renderVacancy(title, slug) {
         return (
             <td>
                 <Link
-                    to='vacancy'
+                    to={{
+                        pathname: '/vacancy/' + slug
+                    }}
                 >
                     {title}
                 </Link>
@@ -140,8 +144,8 @@ function List() {
             <table>
                 <tbody>
                     {filteredList.map((item, index) => (
-                        <tr key={index+1}>
-                            {renderVacancy(item.title)}
+                        <tr key={index}>
+                            {renderVacancy(item.title, item.slug)}
                         </tr>
                     ))}
                 </tbody>
