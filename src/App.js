@@ -4,7 +4,7 @@ import List from "./routes/List"
 import { PageHeader } from 'antd';
 import AppContext from './helpers/AppContext.js'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Vacancy from "./routes/Vacancy.js"
+import Vacancy from "./routes/vacancy/Vacancy.js"
 
 const App = () => {
   const [dataList, setDataList] = useState([])

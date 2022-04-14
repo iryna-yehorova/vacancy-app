@@ -77,12 +77,12 @@ function List() {
         setTagList(list)
     }
 
-    // set filters
+    // set filters 
     const handleRemoteChange = (data) => setRemoteFilter(data)
     const handleCityChange = (data) => setCityFilter(data)
     const handleTagChange = (data) => setTagFilter(data)
 
-    // filter data
+    // filter data 
     useEffect(() => {
         filterList(remoteFilter, cityFilter, tagFilter)
     }, [remoteFilter, cityFilter, tagFilter])
