@@ -4,6 +4,7 @@ import CityFilter from "../components/CityFilter"
 import TagFilter from "../components/TagFilter"
 import { Link } from "react-router-dom";
 import AppContext from "../helpers/AppContext"
+import useInfiniteScroll from '../helpers/useInfiniteScroll';
 
 function List() {
     const [list, setList] = useState([]);
@@ -13,6 +14,8 @@ function List() {
     const [remoteFilter, setRemoteFilter] = useState('');
     const [cityFilter, setCityFilter] = useState('');
     const [tagFilter, setTagFilter] = useState('');
+    const [isFetching, setIsFetching] = useInfiniteScroll(getList);
+    const [page, setPage] = useState(1)
     const dataContext = useContext(AppContext);
 
     // get data from api
@@ -21,8 +24,8 @@ function List() {
     }, [])
 
     function getList() {
-        const url = 'https://www.arbeitnow.com/api/job-board-api'
-        fetch(`${url}`)
+        const API_URL = 'https://www.arbeitnow.com/api';
+        fetch(API_URL + '/job-board-api?page=' + page)
             .then(response => response.json())
             .then(jobs => {
                 const data = jobs.data.map(j => {
@@ -39,11 +42,12 @@ function List() {
                     createdAt: j.created_at
                 }
                 })
-                setList(data);
-                setFilteredList(data);
-                dataContext.setDataList(data)
-                getCityList(data);
-                getTagList(data)
+                setList([...list, ...data]);
+                setFilteredList([...list, ...data]);
+                dataContext.setDataList([...list, ...data])
+                getCityList([...list, ...data]);
+                getTagList([...list, ...data]);
+                setPage(page + 1)
             })
     }
 
@@ -83,29 +87,23 @@ function List() {
         filterList(remoteFilter, cityFilter, tagFilter)
     }, [remoteFilter, cityFilter, tagFilter])
 
-    function filterList(remote, city, tag) {
-        let filter= {
-            remote,
-            city,
-            tag
-        }
-
+    function filterList({remote, city, tag}) {
         let data = list
 
-        if(filter.remote && filter.remote === 'true') {
+        if(remote && remote === 'true') {
             data = data.filter(l => l.remote)
         }
 
-        if(filter.remote && filter.remote === 'false') {
+        if(remote && remote === 'false') {
             data = data.filter(l => !l.remote)
         }
 
-        if(filter.city) {
-            data = data.filter(l => l.location === filter.city)
+        if(city) {
+            data = data.filter(l => l.location === city)
         }
 
-        if(filter.tag) {
-            data = data.filter(l => l.tags.includes(filter.tag))
+        if(tag) {
+            data = data.filter(l => l.tags.includes(tag))
         }
         
         setFilteredList(data)

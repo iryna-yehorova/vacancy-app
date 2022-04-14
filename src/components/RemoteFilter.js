@@ -6,7 +6,7 @@ const filterOptions = [
     {value: 'false', label: 'No'},
 ]
 
-function RemoteFilter (props) {
+function RemoteFilter ({value, onChange}) {
     return (
         <div>
             <label>Remote Filter</label>
@@ -14,9 +14,9 @@ function RemoteFilter (props) {
                 style={{ width: 300 }}
                 placeholder="remote filter"
                 allowClear={true}
-                value={props.value}
+                value={value}
                 options={filterOptions}
-                onChange={(event) => props.onChange(event)}
+                onChange={(event) => onChange(event)}
             />
         </div>
     )

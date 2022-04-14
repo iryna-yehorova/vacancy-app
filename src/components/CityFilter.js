@@ -1,7 +1,7 @@
 import React from 'react'
 import { AutoComplete } from 'antd';
 
-function CityFilter (props) {
+function CityFilter ({value, cities, onChange}) {
     return (
         <div>
             <label>Filter by location</label>
@@ -9,9 +9,9 @@ function CityFilter (props) {
                 style={{ width: 300 }}
                 placeholder="city filter"
                 allowClear={true}
-                value={props.value}
-                options={props.cities}
-                onChange={(event) => props.onChange(event)}
+                value={value}
+                options={cities}
+                onChange={(event) =>onChange(event)}
             />
         </div>
     )
