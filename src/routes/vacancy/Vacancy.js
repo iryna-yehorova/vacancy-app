@@ -1,8 +1,9 @@
 import { useState, useContext, useEffect } from 'react'
 import AppContext from "../../helpers/AppContext"
 import createDOMPurify from 'dompurify'
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { Row, Col, Card } from 'antd';
+import "./vacancy.css"
 
 export default function Vacancy() {
   const[vacancy, setVacancy] = useState({})
@@ -10,6 +11,8 @@ export default function Vacancy() {
   const dataContext = useContext(AppContext)
 
   const DOMPurify = createDOMPurify(window)
+
+  let navigate = useNavigate();
 
   // get certain vacancy from data context
   const getVacancy = () => {
@@ -22,44 +25,44 @@ export default function Vacancy() {
   }, [])
 
   return (
-    <Card title={vacancy.title} bodyStyle={{}} headStyle={{}}>
+    <Card title={vacancy.title} headStyle={{fontWeight: 'bold', fontSize: '24px'}}>
       <Row justify="space-around">
-        <Col span={16}>
+        <Col span={20}>
           { <section dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(vacancy.description) }} /> }
         </Col>
-        <Col span={8}>
+        <Col span={4}>
           <section >
             <div>
-              <span>Company name: </span>
-              <span>{vacancy.companyName}</span>
-            </div>
-            <div>
-              <span>Remote:</span>
-              <span>{ vacancy.remote ? 'Yes' : 'No'}</span>
+              <span>Company: </span>
+              <span className="company">{vacancy.companyName}</span>
             </div>
             <div>
               <span>
-                Location:
+                Location: 
               </span>
-              <span>{ vacancy.location}</span>
+              <span className="location">{vacancy.location}</span>
             </div>
             <div>
-              <span>Job Types:</span>
+              { vacancy.remote ? (
+                <div className="label remote">Remote</div>
+              ) : null
+              }
+            </div>
+            <div>
               { vacancy.jobTypes && vacancy.jobTypes.length > 0 
                 ? vacancy.jobTypes.map((type, index) => {
                     return (
-                      <span key={index}>{type}</span>
+                      <div key={index} className="label type">{type.toLowerCase()}</div>
                     )
                   })
                 : null
               }
             </div>
             <div>
-              <span>Tags:</span>
               { vacancy.tags && vacancy.tags.length > 0 
                 ? vacancy.tags.map((tag, index) => {
                     return (
-                      <span key={index}>{tag}</span>
+                      <div key={index} className="label tag ">{tag.toLowerCase()}</div>
                     )
                   })
                 : null
@@ -68,13 +71,13 @@ export default function Vacancy() {
           </section>
         </Col>
       </Row>
-      <Row>
-        <button>
+      <Row className="btn-actions">
+        <Link to={{pathname: '/' }} className="link">
           Back
-        </button>
-        <button>
+        </Link>
+        <a href={vacancy.url} target="_blank" rel="noopener noreferrer" className="link">
           Apply
-        </button>
+        </a>
       </Row>        
     </Card>
    
