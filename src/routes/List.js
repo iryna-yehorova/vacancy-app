@@ -87,7 +87,7 @@ function List() {
         filterList(remoteFilter, cityFilter, tagFilter)
     }, [remoteFilter, cityFilter, tagFilter])
 
-    function filterList({remote, city, tag}) {
+    function filterList(remote, city, tag) {
         let data = list
 
         if(remote && remote === 'true') {
