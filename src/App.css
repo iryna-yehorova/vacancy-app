@@ -1,9 +1,8 @@
 .App-header {
   display:flex;
-  justify-content: space-around;
+  justify-content: flex-end;
   background-color: #0046d3;
   color: white;
-  margin-bottom: 10px;
 }
 
 .ant-page-header-heading-title{

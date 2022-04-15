@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 import AppContext from "../../helpers/AppContext"
 import useInfiniteScroll from '../../helpers/useInfiniteScroll'
 import "./list.css"
-import { Row, Col, Card, List } from 'antd';
+import { Row, Col, Card, List, Layout } from 'antd';
 
 function JobsList() {
     const [list, setList] = useState([]);
@@ -127,7 +127,7 @@ function JobsList() {
       }
 
     return (
-        <Row>
+        <Row class="list">
             <Col span={18}>
                 <List
                     size="large"

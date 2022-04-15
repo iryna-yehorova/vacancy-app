@@ -16,10 +16,9 @@ const App = () => {
   
     return (
       <AppContext.Provider value={dataSettings}>
-        <div className="App">
+        <div>
           <header className="App-header">
             <PageHeader
-              className="site-page-header"
               backIcon={false}
               title="Vacancy Finding App"
             />

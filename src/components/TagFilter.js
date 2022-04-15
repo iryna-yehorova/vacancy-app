@@ -4,14 +4,16 @@ import './ui/filter.css'
 
 function TagFilter ({value, tags, onChange}) {
     return (
-        <AutoComplete
-            placeholder="Filter by Tag"
-            allowClear={true}
-            value={value}
-            options={tags}
-            onChange={(event) => onChange(event)}
-            className="filter"
-        />
+        <div>
+            <AutoComplete
+                placeholder="Filter by Tag"
+                allowClear={true}
+                value={value}
+                options={tags}
+                onChange={(event) => onChange(event)}
+                className="filter"
+            />
+        </div>
     )
 }
 

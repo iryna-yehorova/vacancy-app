@@ -10,7 +10,6 @@ function RemoteFilter ({value, onChange}) {
     return (
         <div>
             <AutoComplete
-                style={{ width: 300 }}
                 placeholder="Filter by remote"
                 allowClear={true}
                 value={value}
