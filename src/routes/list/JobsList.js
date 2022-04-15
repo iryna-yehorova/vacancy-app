@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext  } from 'react'
-import RemoteFilter from "../components/RemoteFilter"
-import CityFilter from "../components/CityFilter"
-import TagFilter from "../components/TagFilter"
-import { Link } from "react-router-dom";
-import AppContext from "../helpers/AppContext"
-import useInfiniteScroll from '../helpers/useInfiniteScroll';
+import RemoteFilter from "../../components/RemoteFilter"
+import CityFilter from "../../components/CityFilter"
+import TagFilter from "../../components/TagFilter"
+import { Link } from "react-router-dom"
+import AppContext from "../../helpers/AppContext"
+import useInfiniteScroll from '../../helpers/useInfiniteScroll'
+import "./list.css"
+import { Row, Col, Card, List } from 'antd';
 
-function List() {
+function JobsList() {
     const [list, setList] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
     const [cityList, setCityList] = useState([]);
@@ -17,6 +19,7 @@ function List() {
     const [isFetching, setIsFetching] = useInfiniteScroll(getList);
     const [page, setPage] = useState(1)
     const dataContext = useContext(AppContext);
+    
 
     // get data from api
     useEffect( () => {
@@ -90,11 +93,11 @@ function List() {
     function filterList(remote, city, tag) {
         let data = list
 
-        if(remote && remote === 'true') {
+        if(remote && remote === 'Remote') {
             data = data.filter(l => l.remote)
         }
 
-        if(remote && remote === 'false') {
+        if(remote && remote === 'Office') {
             data = data.filter(l => !l.remote)
         }
 
@@ -111,7 +114,7 @@ function List() {
 
     function renderVacancy(title, slug) {
         return (
-            <td>
+            <div className="list-item">
                 <Link
                     to={{
                         pathname: '/vacancy/' + slug
@@ -119,37 +122,39 @@ function List() {
                 >
                     {title}
                 </Link>
-            </td>
+                </div>
         );
       }
 
     return (
-        <div>
-            <RemoteFilter 
-                value={remoteFilter}
-                onChange={handleRemoteChange}
-            />
-            <CityFilter 
-                value={cityFilter}
-                cities={cityList}
-                onChange={handleCityChange}
-            />
-            <TagFilter
-                value={tagFilter}
-                tags={tagList}
-                onChange={handleTagChange}
-            />
-            <table>
-                <tbody>
-                    {filteredList.map((item, index) => (
-                        <tr key={index}>
-                            {renderVacancy(item.title, item.slug)}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+        <Row>
+            <Col span={18}>
+                <List
+                    size="large"
+                    dataSource={filteredList}
+                    renderItem={item => renderVacancy(item.title, item.slug)}
+                />
+            </Col>
+            <Col span="6">
+                <Card className="filter-card">
+                    <RemoteFilter 
+                        value={remoteFilter}
+                        onChange={handleRemoteChange}
+                    />
+                    <CityFilter 
+                        value={cityFilter}
+                        cities={cityList}
+                        onChange={handleCityChange}
+                    />
+                    <TagFilter
+                        value={tagFilter}
+                        tags={tagList}
+                        onChange={handleTagChange}
+                    />
+                </Card>
+            </Col>
+        </Row>
     );
 }
 
-export default List
+export default JobsList

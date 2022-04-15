@@ -1,6 +1,6 @@
 import React, { useState }  from 'react';
 import './App.css';
-import List from "./routes/List"
+import JobsList from "./routes/list/JobsList"
 import { PageHeader } from 'antd';
 import AppContext from './helpers/AppContext.js'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -27,7 +27,7 @@ const App = () => {
           <main>
             <BrowserRouter> 
               <Routes>
-                  <Route exact path="/" element={<List />}/>
+                  <Route exact path="/" element={<JobsList />}/>
                   <Route exact path="/vacancy/:slug" element={<Vacancy />} />
                   <Route
                     path="*"

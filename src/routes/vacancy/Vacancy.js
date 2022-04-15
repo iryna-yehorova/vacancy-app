@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react'
 import AppContext from "../../helpers/AppContext"
 import createDOMPurify from 'dompurify'
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Row, Col, Card } from 'antd';
 import "./vacancy.css"
 
@@ -12,14 +12,12 @@ export default function Vacancy() {
 
   const DOMPurify = createDOMPurify(window)
 
-  let navigate = useNavigate();
-
   // get certain vacancy from data context
   const getVacancy = () => {
     const job = dataContext.dataList.find(item => item.slug === params.slug)
     setVacancy(job)
   }
-
+  
   useEffect( () => {
     getVacancy()
   }, [])

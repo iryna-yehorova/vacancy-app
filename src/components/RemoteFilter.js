@@ -2,17 +2,16 @@ import React from 'react'
 import { AutoComplete } from 'antd';
 
 const filterOptions = [
-    {value: 'true', label: 'Yes'},
-    {value: 'false', label: 'No'},
+    {value: 'Remote', label: 'Yes'},
+    {value: 'Office', label: 'No'},
 ]
 
 function RemoteFilter ({value, onChange}) {
     return (
         <div>
-            <label>Remote Filter</label>
             <AutoComplete
                 style={{ width: 300 }}
-                placeholder="remote filter"
+                placeholder="Filter by remote"
                 allowClear={true}
                 value={value}
                 options={filterOptions}
